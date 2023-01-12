@@ -10,19 +10,12 @@ import {
   GridColDef,
   GridRenderCellParams,
 } from "@mui/x-data-grid/models";
-import {
-  GridToolbarContainer,
-  GridToolbarColumnsButton,
-  GridToolbarFilterButton,
-  GridToolbarDensitySelector,
-  GridToolbarExport,
-  GridActionsCellItem,
-} from "@mui/x-data-grid/components";
+import { GridActionsCellItem } from "@mui/x-data-grid/components";
 import ArchitectureIcon from "@mui/icons-material/Architecture";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import {
-  useLazyListOrdersQuery,
-  useListOrdersQuery,
+  useLazyListCustomerOrdersQuery,
+  useListCustomerOrdersQuery,
   useUpdateMutation,
 } from "../../../redux/apis/orders";
 import { useSelector } from "react-redux";
@@ -35,6 +28,7 @@ import RestoreIcon from "@mui/icons-material/Restore";
 import EditOrderModal from "./components/EditOrderModal";
 import CreateOrderModal from "./components/CreateOrderModal";
 import AddIcon from "@mui/icons-material/Add";
+import CustomToolbar from "../../../components/custom-toolbar";
 
 const StatusMapper: { [key: string]: string } = {
   [OrderStatuses.ACCEPTED]: "Aceito",
@@ -76,21 +70,6 @@ const getStatusColumnColor = (row: Order) => {
     </Typography>
   );
 };
-
-function CustomToolbar() {
-  return (
-    <GridToolbarContainer
-      sx={{
-        marginBottom: 1,
-      }}
-    >
-      <GridToolbarColumnsButton />
-      <GridToolbarFilterButton />
-      <GridToolbarDensitySelector />
-      <GridToolbarExport />
-    </GridToolbarContainer>
-  );
-}
 
 const ARCHITECTS_COLS_DEF: GridColDef[] = [
   {
@@ -184,10 +163,10 @@ export default function CustomerDashboard(): JSX.Element {
     isLoading: isLoadingOrders,
     isError: isErrorOrders,
     error: errorOrders,
-  } = useListOrdersQuery({
+  } = useListCustomerOrdersQuery({
     id: customerId,
   });
-  const [listOrders, _] = useLazyListOrdersQuery();
+  const [listOrders] = useLazyListCustomerOrdersQuery();
 
   const deleteOrder = async (orderId: number) => {
     await updateOrder({

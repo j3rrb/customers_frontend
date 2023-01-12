@@ -35,10 +35,22 @@ export const ordersAPI = createApi({
         url: `get/${id}`,
       }),
     }),
-    listOrders: builder.query<Order[], { id: number; status?: OrderStatuses }>({
+    listCustomerOrders: builder.query<
+      Order[],
+      { id: number; status?: OrderStatuses }
+    >({
       query: ({ id, status }) => ({
         method: "GET",
         url: `customer/${id}/list${status ? `?status=${status}` : ""}`,
+      }),
+    }),
+    listArchitectOrders: builder.query<
+      Order[],
+      { id: number; status?: OrderStatuses }
+    >({
+      query: ({ id, status }) => ({
+        method: "GET",
+        url: `architect/${id}/list${status ? `?status=${status}` : ""}`,
       }),
     }),
     update: builder.mutation<Order, { id: number; data: EditOrderFormFields }>({
@@ -52,9 +64,11 @@ export const ordersAPI = createApi({
 });
 
 export const {
-  useLazyListOrdersQuery,
+  useLazyListCustomerOrdersQuery,
   useCreateOrderMutation,
-  useListOrdersQuery,
+  useListCustomerOrdersQuery,
+  useLazyListArchitectOrdersQuery,
+  useListArchitectOrdersQuery,
   useUpdateMutation,
   useLazyGetOrderQuery,
 } = ordersAPI;

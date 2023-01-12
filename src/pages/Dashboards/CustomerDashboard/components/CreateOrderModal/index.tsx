@@ -12,7 +12,7 @@ import { Slide } from "@mui/material";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CreateOrderFormFields, Roles } from "../../../../../types";
-import { useCreateOrderMutation, useLazyListOrdersQuery } from "../../../../../redux/apis/orders";
+import { useCreateOrderMutation, useLazyListCustomerOrdersQuery } from "../../../../../redux/apis/orders";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import ErrorComponent from "../../../../../components/error";
@@ -61,13 +61,11 @@ export default function CreateOrderModal({
     },
   });
 
-  const [listOrders, _] = useLazyListOrdersQuery();
+  const [listOrders] = useLazyListCustomerOrdersQuery();
   const [createOrder, { isError, error }] = useCreateOrderMutation();
   const { data: architects, isLoading } = useListUsersQuery(Roles.ARCHITECT);
 
   const onSubmit: SubmitHandler<CreateOrderFormFields> = async (values) => {
-    console.log("submit");
-
     if (modalProps.architectId) {
       await createOrder({
         ...values,

@@ -13,21 +13,15 @@ import { Slide } from "@mui/material";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import EditOrderFormValidation from "./formValidation";
-import { EditOrderFormFields, Roles } from "../../../../../types";
+import { EditOrderFormFields } from "../../../../../types";
 import {
   useLazyGetOrderQuery,
-  useLazyListOrdersQuery,
+  useLazyListCustomerOrdersQuery,
   useUpdateMutation,
 } from "../../../../../redux/apis/orders";
 import Grid from "@mui/material/Grid";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
-import FormHelperText from "@mui/material/FormHelperText";
 import TextField from "@mui/material/TextField";
 import ErrorComponent from "../../../../../components/error";
-import { useLazyListUsersQuery } from "../../../../../redux/apis/users";
-import MenuItem from "@mui/material/MenuItem";
 import CircularProgress from "@mui/material/CircularProgress";
 
 type Props = {
@@ -62,7 +56,7 @@ export default function EditOrderModal({
     updateOrder,
     { isError: isErrorUpdate, error: errorUpdate, isLoading: isLoadingUpdate },
   ] = useUpdateMutation();
-  const [listOrders, _] = useLazyListOrdersQuery();
+  const [listOrders, _] = useLazyListCustomerOrdersQuery();
   const [getOrder, { data: order, isLoading: isLoadingOrder }] =
     useLazyGetOrderQuery();
 
@@ -164,7 +158,9 @@ export default function EditOrderModal({
                     defaultValue={Buffer.from(order.detailsText).toString()}
                     error={!!errors.detailsText}
                     helperText={
-                      errors.detailsText ? errors.detailsText.message : undefined
+                      errors.detailsText
+                        ? errors.detailsText.message
+                        : undefined
                     }
                     {...register("detailsText")}
                   />

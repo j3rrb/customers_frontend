@@ -39,3 +39,17 @@ export type CreateAccountFormFields = {
   password: string;
   confirmPassword: string;
 };
+
+export type User = {
+  birthDate: string;
+  createdAt: string;
+  email: string;
+  firstName: string;
+  gender: Genders;
+  id: number;
+  lastName: string;
+  primaryPhoneNumber: string;
+  role: Roles;
+  secondaryPhoneNumber: string | null;
+  updatedAt: string;
+};

@@ -5,18 +5,20 @@ import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 import auth from "./slices/auth";
 
+export const PERSIST_CONFIG_KEY = "root";
+
 const PERSIST_CONFIG = {
-  key: "root",
+  key: PERSIST_CONFIG_KEY,
   storage,
 };
 
-const persistedReducer = persistReducer(PERSIST_CONFIG, auth);
+const authPersisted = persistReducer(PERSIST_CONFIG, auth);
 
 const rootReducer = combineReducers({
   [authAPI.reducerPath]: authAPI.reducer,
   [usersAPI.reducerPath]: usersAPI.reducer,
-  persistedReducer,
-})
+  auth: authPersisted,
+});
 
 export const store = configureStore({
   reducer: rootReducer,

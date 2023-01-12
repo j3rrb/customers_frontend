@@ -3,16 +3,23 @@ import { LoginFormFields } from "../../../types";
 
 export const authAPI = createApi({
   reducerPath: "authAPI",
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_API_URL }),
+  baseQuery: fetchBaseQuery({ baseUrl: `${process.env.REACT_APP_API_URL}/auth/` }),
   endpoints: (builder) => ({
     login: builder.mutation<{ accessToken: string }, LoginFormFields>({
       query: (loginData) => ({
         method: "POST",
-        url: "auth/login",
+        url: "login",
         body: loginData,
+      }),
+    }),
+    validateToken: builder.mutation<{ token: string }, string>({
+      query: (token) => ({
+        method: "POST",
+        url: "validate-token",
+        body: { token },
       }),
     }),
   }),
 });
 
-export const { useLoginMutation } = authAPI;
+export const { useLoginMutation, useValidateTokenMutation } = authAPI;

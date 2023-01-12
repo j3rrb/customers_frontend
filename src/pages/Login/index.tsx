@@ -43,6 +43,8 @@ export default function LoginPage(): JSX.Element {
     const { accessToken } = await login(values).unwrap();
 
     dispatch(setToken(accessToken));
+
+    navigate("/");
   };
 
   return (

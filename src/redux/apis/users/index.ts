@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { CreateAccountFormFields, Roles, User } from "../../../types";
 import { RootState } from "../../store";
 
 export const usersAPI = createApi({
@@ -17,14 +18,14 @@ export const usersAPI = createApi({
     credentials: "include",
   }),
   endpoints: (builder) => ({
-    create: builder.mutation({
+    create: builder.mutation<User, CreateAccountFormFields>({
       query: (userData) => ({
         method: "POST",
         url: "create",
         body: userData,
       }),
     }),
-    listAll: builder.query({
+    listUsers: builder.query<User[], Roles | undefined>({
       query: (role) => ({
         method: "GET",
         url: `list/all${role ? `?role=${role}` : ""}`,
@@ -34,4 +35,5 @@ export const usersAPI = createApi({
   }),
 });
 
-export const { useCreateMutation, useListAllQuery } = usersAPI;
+export const { useCreateMutation, useListUsersQuery, useLazyListUsersQuery } =
+  usersAPI;

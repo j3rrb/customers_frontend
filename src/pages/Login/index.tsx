@@ -145,8 +145,10 @@ export default function LoginPage(): JSX.Element {
         {isError && error && (
           <Snackbar open={isError}>
             <Alert severity="error">
-              {((error as FetchBaseQueryError).data as DefaultAPIError)
-                .message || "Erro!"}
+              {error.hasOwnProperty("data")
+                ? ((error as FetchBaseQueryError).data as DefaultAPIError)
+                    .message
+                : "Não foi possível fazer a requisição ao servidor!"}
             </Alert>
           </Snackbar>
         )}

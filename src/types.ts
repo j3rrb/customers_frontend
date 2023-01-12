@@ -3,6 +3,8 @@ export enum FormValidationMessages {
   SELECIONE = "Selecione!",
   SENHAS_NAO_COINCIDEM = "As senhas não coincidem!",
   EMAIL_INVALIDO = "E-mail inválido!",
+  MIN_PRAZO_EM_DIAS = "O prazo em dias deve ser maior que 1!",
+  NUMERO_INVALIDO = "Número inválido!",
 }
 
 export enum Genders {
@@ -16,15 +18,22 @@ export enum Roles {
   ARCHITECT = "ARCHITECT",
 }
 
-export type LoginFormFields = {
-  email: string;
-  password: string;
-};
+export enum OrderStatuses {
+  ACCEPTED = "ACCEPTED",
+  REFUSED = "REFUSED",
+  OPENED = "OPENED",
+  DELETED = "DELETED",
+}
 
 export type DefaultAPIError = {
   error: string;
   message: string;
   statusCode: number;
+};
+
+export type LoginFormFields = {
+  email: string;
+  password: string;
 };
 
 export type CreateAccountFormFields = {
@@ -40,6 +49,20 @@ export type CreateAccountFormFields = {
   confirmPassword: string;
 };
 
+export type CreateOrderFormFields = {
+  customerId: number;
+  architectId: number;
+  detailsText: string;
+  deadline: number;
+};
+
+export type EditOrderFormFields = {
+  architectId?: number;
+  detailsText?: string;
+  deadline?: number;
+  status?: OrderStatuses;
+};
+
 export type User = {
   birthDate: string;
   createdAt: string;
@@ -52,4 +75,15 @@ export type User = {
   role: Roles;
   secondaryPhoneNumber: string | null;
   updatedAt: string;
+};
+
+export type Order = {
+  id: number;
+  detailsText: Buffer;
+  deadlineInDays: number;
+  status: OrderStatuses;
+  createdAt: string;
+  updatedAt: string;
+  architectId: number;
+  customerId: number;
 };

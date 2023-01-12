@@ -64,9 +64,7 @@ export default function CreateAccountPage(): JSX.Element {
   });
 
   const onSubmit: SubmitHandler<CreateAccountFormFields> = async (values) => {
-    delete values.secondaryPhoneNumber;
-
-    await createAccount(values);
+    await createAccount(values).unwrap();
 
     navigate("/login");
   };
@@ -317,14 +315,28 @@ export default function CreateAccountPage(): JSX.Element {
                   )}
                 </Button>
               </Grid>
+              <Grid item>
+                <Button
+                  onClick={() => {
+                    navigate("/login");
+                  }}
+                  fullWidth
+                >
+                  <Typography fontFamily="Roboto-Regular" textTransform="none">
+                    Voltar para login
+                  </Typography>
+                </Button>
+              </Grid>
             </Grid>
           </form>
         </Paper>
         {isError && error && (
           <Snackbar open={isError}>
             <Alert severity="error">
-              {((error as FetchBaseQueryError).data as DefaultAPIError)
-                .message || "Erro!"}
+              {error.hasOwnProperty("data")
+                ? ((error as FetchBaseQueryError).data as DefaultAPIError)
+                    .message
+                : "Não foi possível fazer a requisição ao servidor!"}
             </Alert>
           </Snackbar>
         )}
